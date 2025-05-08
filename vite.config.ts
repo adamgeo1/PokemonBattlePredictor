@@ -9,5 +9,10 @@ export default defineConfig({
     postcss: {
       plugins: [tailwindcss()],
     },
-  }
+  },
+  server: {
+    proxy: {
+      '/hello': 'http://localhost:5000',
+    },
+  },
 })

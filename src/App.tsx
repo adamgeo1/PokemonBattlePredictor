@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
@@ -11,12 +11,9 @@ function App() {
   const [helloText, setHelloText] = useState('');
 
   const getHello = async () => {
-    await useEffect(() => {
       fetch('/hello').then(res => res.json()).then(data => {
-        alert(data);
-        setHelloText(data.hello);
-      });
-    }, []);
+          setHelloText(data.hello)
+      })
   }
 
   return (
@@ -34,7 +31,7 @@ function App() {
         <button onClick={() => setCount((count) => count + 1)}>
           count is {count}
         </button>
-        <button onClick={() => setHelloText('Hello World!')}>Set Hello</button>
+          <button onClick={() => getHello()}>getHello()</button>
         <p>
           Edit <code>src/App.tsx</code> and save to test HMR
         </p>
