@@ -11,8 +11,8 @@ function App() {
   const [helloText, setHelloText] = useState('');
 
   const getHello = async () => {
-      fetch('/hello').then(res => res.json()).then(data => {
-          setHelloText(data.hello)
+      fetch('/api/hello').then(res => res.json()).then(data => {
+          setHelloText(data.message)
       })
   }
 
