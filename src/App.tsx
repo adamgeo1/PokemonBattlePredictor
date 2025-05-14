@@ -4,6 +4,16 @@ import viteLogo from '/vite.svg'
 import './App.css'
 
 
+const getPage = async ()=> {
+  const response = await fetch('/api/scrape', {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+  const data = await response.json();
+  console.log(data);
+}
 
 function App() {
   const [count, setCount] = useState(0)
@@ -84,6 +94,7 @@ function App() {
           <input type="text" placeholder="Enter Pokemon name" id="pokemonName"/>
           <button onClick={() => getPokemon(document.getElementById("pokemonName")?.value)}>get Pokemon info</button>
         </div>
+        <button onClick={() => getPage()}>scrape Pokemon</button>
         
         <p>The pokemon is {pokemon}</p>
         <p>

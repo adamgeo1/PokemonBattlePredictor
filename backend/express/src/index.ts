@@ -1,6 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import { getPokemon } from './pokemon';
+import { getPagePokemon } from './scrape';
 
 const app = express();
 const PORT = 3001;
@@ -33,4 +34,17 @@ app.get('/api/getPokemon', (_req, res) => {
         console.error(err);
         res.status(500).json({ error: 'Failed to fetch Pokemon' });
     });
+})
+
+app.get('/api/scrape', async (_req, res) => {
+    let output: string[] = [];
+    await getPagePokemon('placeholder_url')
+    .then(data => {
+        output = data;
+    });
+
+    res.json({ 
+        message: 'Scraping completed!',
+        data: output
+     });
 })
