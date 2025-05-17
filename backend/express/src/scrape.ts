@@ -33,6 +33,8 @@ const getPagePokemon = async (url: string) => {
         // We can use this to group the pokemon data that we can scrape from the <table> tags directly after
         // and piece together the trainer battle information.
 
+        
+
         const pokemonMentioned = await page.evaluate(() => {
             const elements = document.querySelectorAll('a[href^="/wiki/"][href$="(Pok%C3%A9mon)"]');
             const pokemonNames: string[] = [];
