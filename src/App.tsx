@@ -70,42 +70,35 @@ function App() {
     .catch(err => {
       console.error(err);
       setPokemon("Error fetching pokemon data");
+    });      
+  }
+
+  const findBattles = async () => {
+    const response = await fetch('/api/findTrainers', {
+        method: 'GET',
+        headers: {
+        'Content-Type': 'application/json',
+        },
     });
-        
+    const data = await response.json();
+    console.log("The trainers on the page are:\n", data);
   }
 
   return (
     <>
       <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
       </div>
       <h1 className={"text-red-500"}>Vite + React</h1>
       <div className="card flex flex-col items-center justify-center">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-          <button onClick={() => getHello()}>getHello()</button>
         <div>
           <input type="text" placeholder="Enter Pokemon name" id="pokemonName"/>
           <button onClick={() => getPokemon(document.getElementById("pokemonName")?.value)}>get Pokemon info</button>
         </div>
         <button onClick={() => getPage()}>scrape Pokemon</button>
+        <button onClick={() => findBattles()}>Find Battles</button>
         
         <p>The pokemon is {pokemon}</p>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-
-      <h2>Hello: {helloText}</h2>
     </>
   )
 }
