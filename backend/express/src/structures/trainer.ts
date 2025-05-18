@@ -4,6 +4,7 @@ interface TrainerData {
     "pokemon" : string[],
     "location" : string,
     "game" : string,
+    "image" : string,
 }
 
 class Trainer {
@@ -12,6 +13,7 @@ class Trainer {
     pokemon: string[];
     location: string;
     game: string;
+    image: string;
 
     constructor(data: TrainerData){
         this.name = data.name;
@@ -19,6 +21,7 @@ class Trainer {
         this.pokemon = data.pokemon;
         this.location = data.location;
         this.game = data.game;
+        this.image = data.image;
     }
 }
 

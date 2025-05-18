@@ -4,17 +4,6 @@ import viteLogo from '/vite.svg'
 import './App.css'
 
 
-const getPage = async ()=> {
-  const response = await fetch('/api/scrape', {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  });
-  const data = await response.json();
-  console.log(data);
-}
-
 function App() {
   const [count, setCount] = useState(0)
 
@@ -73,7 +62,27 @@ function App() {
     });      
   }
 
-  const findBattles = async () => {
+  const sendBattle = async (battle: Object = {}) => {
+    fetch('/api/sendTrainer',
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          battle: battle
+        }
+        )
+      }
+    )
+  }
+
+  const findBattles = async (trainer? : string | null) => {
+    if (!trainer){
+      return;
+    }
+    var result = await sendBattle(trainer ? trainer : "");
+
     const response = await fetch('/api/findTrainers', {
         method: 'GET',
         headers: {
@@ -94,8 +103,13 @@ function App() {
           <input type="text" placeholder="Enter Pokemon name" id="pokemonName"/>
           <button onClick={() => getPokemon(document.getElementById("pokemonName")?.value)}>get Pokemon info</button>
         </div>
-        <button onClick={() => getPage()}>scrape Pokemon</button>
-        <button onClick={() => findBattles()}>Find Battles</button>
+        <div>
+          <input type="text" placeholder="Enter page url" id="pageUrl"/>
+          <button onClick={() => findBattles(document.getElementById("pageUrl")?.value)}>Find Battles</button>
+        </div>
+        <div id="trainer-container">
+
+        </div>
         
         <p>The pokemon is {pokemon}</p>
       </div>

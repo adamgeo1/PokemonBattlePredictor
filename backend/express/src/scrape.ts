@@ -34,6 +34,8 @@ const getPageBattles = async (url: string) => {
 
         // For trainer battles that are expandable on the Bulbapedia page, and have 
         // expanded info about the pokemon, including abilities, movesets and items included
+        // TODO: find a way to get other information about the pokemon,
+        // including the level, ability, moves, and held item
         const notableTrainerBattles = await page.evaluate(async () => {
 
 
@@ -49,22 +51,22 @@ const getPageBattles = async (url: string) => {
                                 const href = p.getAttribute('href');
                                 if (href && href.startsWith('/wiki/') && !href.includes(':')) {
                                     const name = href.split('/wiki/')[1].split('_(Pok%C3%A9mon)')[0];
-                                    if (!pokemonNames.includes(name)) {
-                                        pokemonNames.push(name);
-                                    }
+                                    pokemonNames.push(name);
                                 }
                             });
                     return pokemonNames;
                 }
 
                 const moreTrainerInfo = () => {
-                    const table = element.querySelector(".roundy");
+                    const trainerRow = element.querySelector('tr');
+                    const table = trainerRow?.querySelector(".roundy");
                     const body = table?.querySelector("tbody");
                     const info: string[] = [];
                     const rows = body?.querySelectorAll("tr");
                     rows?.forEach((row)=> {
                         info.push(row.textContent?.substring(1).slice(0, row.textContent?.substring(1).length - 1) || "");
                     });
+                    info.push("bulbapedia.bulbagarden.net".concat(trainerRow?.querySelector('a[href^="/wiki/File:"][href$=".png"]')?.getAttribute('href')  || ""));
 
                     return info;
                 };
@@ -79,6 +81,7 @@ const getPageBattles = async (url: string) => {
                     const includedPokemon = pokemonMentioned();
                     const trainerInfo = moreTrainerInfo();
                     trainers.push({
+                        image: trainerInfo[5],
                         name : trainerInfo[1],
                         title : trainerInfo[0],
                         pokemon : includedPokemon,

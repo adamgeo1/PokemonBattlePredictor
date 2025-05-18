@@ -21,6 +21,9 @@ app.listen(PORT, () => {
 
 let pokemonToSearch: string = 'pikachu';
 
+let battleToFind: string = "https://bulbapedia.bulbagarden.net/wiki/Walkthrough:Pok%C3%A9mon_Colosseum/Part_2";
+const testPage = "https://bulbapedia.bulbagarden.net/wiki/Walkthrough:Pok%C3%A9mon_Emerald/Part_2";
+
 // This endpoint receives a Pokemon name from the client and stores it in a variable
 // To be moved into pokemon.ts or a separate file in the future
 app.post('/api/sendPokemon', (_req, res) => {
@@ -50,9 +53,14 @@ app.get('/api/scrape', async (_req, res) => {
      });
 })
 
+app.post('/api/sendTrainer', (_req, res) => {
+  battleToFind = _req.body.battle;
+  res.json({status: "Trainer received", data: _req.body});
+})
+
 app.get('/api/findTrainers', async (_req, res) => {
   let output: Trainer[] = [];
-  await getPageBattles("https://bulbapedia.bulbagarden.net/wiki/Walkthrough:Pok%C3%A9mon_Colosseum/Part_2")
+  await getPageBattles(testPage)
   .then(data => {
     output = data;
   })
